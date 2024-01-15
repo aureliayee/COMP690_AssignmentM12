@@ -1,3 +1,7 @@
+
+// Add a play button to the web page. When the user selects an artist/album from the drop down menu and clicks the play button, the play() method should be called for that album. This will track that album as being played.
+
+
 class Jukebox {
     constructor(albums) {
         this.albums = []
@@ -31,21 +35,35 @@ class Album {
     }
 }
 
-var jbox = new Jukebox()
-const album1 = new Album('Operation Ivy', 'Energy')
-const album2 = new Album('Blink 182', 'Dude Ranch')
-const album3 = new Album('New Found Glory', 'Sticks and Stones')
+let jbox = new Jukebox()
+const albumArr = [
+    ['Operation Ivy', 'Energy'],
+    ['Blink 182', 'Dude Ranch'],
+    ['New Found Glory', 'Sticks and Stones']
+]
 
-jbox.addAlbum(album1)
-jbox.addAlbum(album2)
-jbox.addAlbum(album3)
+let musicList = document.getElementById("musicList")
+let album = []
+for(let i = 0; i < albumArr.length; i++) {
+    musicList.innerHTML += `<option value="album${i+1}">${ albumArr[i][0]} - ${albumArr[i][1]}</option>`
+    album[i] = new Album(`${albumArr[i][0]}`, `${albumArr[i][1]}`)
+    jbox.addAlbum(album[i])
+}
 
-album1.play()
-album2.play()
-album2.play()
-album2.play()
-album2.play()
-album2.play()
-album3.play()
+function selectSong(){
+    let currentAlbum = document.getElementById("musicList").selectedIndex
+    return currentAlbum
+}
+let favoriteAlbum = document.getElementById("favoriteAlbum")
 
-console.log(`Your favorite album is: ${jbox.favoriteAlbum()}`)
+playButton.addEventListener('click', () => {
+    let i = selectSong()
+    album[i].play()
+    console.log(album[i])
+    favoriteAlbum.innerHTML = `Your favorite album is: ${jbox.favoriteAlbum()}`
+})
+
+favoriteButton.addEventListener('click', () => {
+    favoriteAlbum.classList.remove('hide')
+    favoriteAlbum.classList.add('show')
+})
